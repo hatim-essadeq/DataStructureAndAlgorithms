@@ -3,39 +3,40 @@ package com.essadeq.datastructure.arrays;
 import java.util.Arrays;
 
 public class DynamicArray<T> {
-    T[] data;
-    int size;
+    Object[] data;
 
     public DynamicArray() {
-        size = 0;
-        data = (T[]) new Object[size];
+        data = new Object[0];
     }
 
     public int getSize() {
-        return size;
+        return data.length;
     }
 
     public Object[] getData() {
         return data;
     }
 
-    public T get(int index) {
-        return (T) data[index];
+    public Object get(int index) {
+        return data[index];
     }
 
-    public void set(T element) {
-        checkSizeCapacity(size + 1);
-        data[size++] = element;
+    public void set(Object element) {
+        data = Arrays.copyOf(data, data.length + 1); // add 1 to data size
+        int index = data.length - 1; // get index of element
+        data[index] = element; // store element
     }
 
-    private void checkSizeCapacity(int minSize) {
-        int currentSize = data.length;
-        if (minSize > currentSize) {
-            int newSize = currentSize + 1;
-            if (newSize < minSize) {
-                newSize = minSize;
-            }
-            data = Arrays.copyOf(data, newSize);
+    public void delete(int index) {
+        for (int i = index; i < data.length - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        data = Arrays.copyOf(data, data.length - 1); // remove 1 from data size
+    }
+
+    public void print() {
+        for (Object datum : data) {
+            System.out.print(datum + " \t ");
         }
     }
 }
